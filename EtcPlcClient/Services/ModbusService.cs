@@ -11,14 +11,6 @@ public sealed class ModbusService : IModbusService, IDisposable
 {
     private ModbusTcpClient? _client;
     private byte _unitId;
-
-    // ИСПРАВЛЕНИЕ БАГА: _client читается и изменяется из разных потоков —
-    // Connect()/Disconnect() вызываются из ConnectAsync (Task.Run),
-    // ReadAllInputs() — из фонового опроса PollLoopAsync,
-    // WriteCoil() — из ToggleDoAsync. Без блокировки два одновременных
-    // вызова (например, повторный клик "Подключиться" пока первая попытка
-    // ещё выполняется) могут затереть друг другу _client и привести
-    // к NullReferenceException.
     private readonly object _lock = new();
 
     public bool IsConnected { get; private set; }
