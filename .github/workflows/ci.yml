@@ -9,6 +9,6 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-dotnet@v2
               with:
-                dotnet-version: '8.0.x'
+                dotnet-version: '10.0.x'
             - name: TestBuild
               run: dotnet build EtcPlcClient/EtcPlcClient.csproj
